@@ -1,0 +1,1 @@
+import { mongoURI } from "../config";
