@@ -1,6 +1,6 @@
-import { runSQL } from "./service/sql.service";
+import { runSQLQuery } from "./service/sql.service";
 
 (async () => {
-  const result = await runSQL(`SELECT TOP (1) * FROM Person.Person`);
+  const result = await runSQLQuery();
   console.log(result);
 })();

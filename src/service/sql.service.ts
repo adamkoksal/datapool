@@ -1,4 +1,4 @@
-import { sqlURI } from "../config";
+import { sqlURI, sqlQuery } from "../config";
 const sql = require("mssql");
 // remove export
 export async function runSQL(query: string) {
@@ -13,15 +13,10 @@ export async function runSQL(query: string) {
 
 export async function runSQLQuery() {
   try {
-    const query = getQuery();
-    const response = await runSQL(query);
+    const response = await runSQL(sqlQuery);
 
     return response.recordset;
   } catch (error) {
     console.log(error);
   }
-}
-
-function getQuery (): string {
-    return `query`
 }
