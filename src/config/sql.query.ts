@@ -1,4 +1,4 @@
-export const sqlQuery = `SELECT TOP 10
+export const sqlQuery = `SELECT 
 Person.Person.BusinessEntityID, Person.Person.Title, Person.Person.FirstName, Person.Person.MiddleName, Person.Person.LastName,
 Person.Address.AddressLine1, Person.Address.AddressLine2, Person.Address.City, Person.Address.PostalCode, 
 AddressType.Name AS AddressType, 
