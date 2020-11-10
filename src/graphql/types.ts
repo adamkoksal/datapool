@@ -1,11 +1,42 @@
 const { gql } = require("apollo-server");
 
 export const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
+  type Person {
+    BusinessEntityID: String
+    Title: String
+    FirstName: String
+    MiddleName: String
+    LastName: String
+    AddressLine1: String
+    AddressLine2: String
+    City: String
+    PostalCode: String
+    AddressType: String
+    StateProvinceCode: String
+    CountryRegionCode: String
+    StateName: String
+    PhoneNumber: String
+    PhoneType: String
   }
+
   type Query {
-    getBooks: [Book]
+    Persons(
+      BusinessEntityID: String
+      Title: String
+      FirstName: String
+      MiddleName: String
+      LastName: String
+      AddressLine1: String
+      AddressLine2: String
+      City: String
+      PostalCode: String
+      AddressType: String
+      StateProvinceCode: String
+      CountryRegionCode: String
+      StateName: String
+      PhoneNumber: String
+      PhoneType: String
+      Page: Int
+    ): [Person]
   }
 `;

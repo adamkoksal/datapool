@@ -1,7 +1,7 @@
-import { dbClient } from "../app";
+import { getPersons } from "../service/person.service";
 
 export const resolvers = {
   Query: {
-    getBooks: async () => await dbClient.collection("Book").find({}).toArray(),
+    Persons: async (_, args) => getPersons(args),
   },
 };
