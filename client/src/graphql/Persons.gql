@@ -1,0 +1,7 @@
+#import "./PersonFragment.gql"
+
+query Persons ($FirstName: String $Page: Int) {
+  Persons (FirstName: $FirstName Page: $Page) {
+    ...person
+  }
+}

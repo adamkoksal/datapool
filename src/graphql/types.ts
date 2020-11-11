@@ -2,6 +2,7 @@ const { gql } = require("apollo-server");
 
 export const typeDefs = gql`
   type Person {
+    _id: String
     BusinessEntityID: String
     Title: String
     FirstName: String
@@ -21,6 +22,7 @@ export const typeDefs = gql`
 
   type Query {
     Persons(
+      _id: String
       BusinessEntityID: String
       Title: String
       FirstName: String

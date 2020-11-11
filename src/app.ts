@@ -1,14 +1,21 @@
 import { resolvers, typeDefs } from "./graphql";
 import { connectMongo } from "./service/mongo.service";
-const { ApolloServer } = require("apollo-server");
-
 export let dbClient;
-(async () => {
-  dbClient = await connectMongo();
-})();
 
+const { ApolloServer } = require("apollo-server-express");
 const server = new ApolloServer({ typeDefs, resolvers });
+const path = require("path");
+const express = require("express");
+const app = express();
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+app.use(express.static(path.join(__dirname, "../dist/public")));
+
+server.applyMiddleware({ app, path: `/graphql` });
+
+// app.get("*", (req, res) => {
+//   return res.sendFile(path.join(__dirname, "../dist/public/index.html"));
+// });
+
+app.listen({ port: 4000 }, async () => {
+  dbClient = await connectMongo();
 });
