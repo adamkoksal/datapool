@@ -1,7 +1,7 @@
 #import "./PersonFragment.gql"
 
-query Persons ($FirstName: String $Page: Int) {
-  Persons (FirstName: $FirstName Page: $Page) {
+query persons($fields: Field, $page: String) {
+  persons(fields: $fields, page: $page) {
     ...person
   }
 }

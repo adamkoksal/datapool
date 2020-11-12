@@ -2,15 +2,14 @@ import { dbClient } from "../app";
 
 const limit = 10;
 
-export async function getPersons(args) {
-  for (const prop in args) {
-    if (args[prop] === "") delete args[prop];
+export async function getPersons({ fields, page }) {
+  for (const prop in fields) {
+    if (fields[prop] === "") delete fields[prop];
   }
-  let skip = args.Page ? (args.Page - 1) * limit : 0;
-  delete args.Page;
+  let skip = page ? (page - 1) * limit : 0;
   return await dbClient
     .collection("Person")
-    .find(args)
+    .find(fields)
     .collation({ locale: "en", strength: 2 })
     .skip(skip)
     .limit(limit)
