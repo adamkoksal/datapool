@@ -1,3 +1,5 @@
-# datapool - IN PROGRESS
+# datapool
+
+IN PROGRESS
 
 NodeJS MongoDB Vue.js GraphQL
