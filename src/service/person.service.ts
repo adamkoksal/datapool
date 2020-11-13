@@ -15,3 +15,10 @@ export async function getPersons({ fields, page }) {
     .limit(limit)
     .toArray();
 }
+
+export async function getCount({ fields }) {
+  for (const prop in fields) {
+    if (fields[prop] === "") delete fields[prop];
+  }
+  return await dbClient.collection("Person").find(fields).count();
+}

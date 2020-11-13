@@ -1,7 +1,7 @@
 import { sqlURI, sqlQuery } from "../config";
 const sql = require("mssql");
-// remove export
-export async function runSQL(query: string) {
+
+async function runSQL(query: string) {
   try {
     await sql.connect(sqlURI);
     return sql.query(query);

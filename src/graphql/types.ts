@@ -44,5 +44,9 @@ export const typeDefs = gql`
       page: String
       fields: Field
     ): [Person]
+
+    getCount(
+      fields: Field
+    ): Int
   }
 `;
