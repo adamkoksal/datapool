@@ -22,6 +22,7 @@ export async function bulkInsert(sqlData: Array<any>) {
 
   for await (const data of sqlData) {
     data.StateProvinceCode = data.StateProvinceCode.trim();
+    data.EmailAddress = data.EmailAddress.replace("adventure-works", "datapool");
     ops.push({
       insertOne: data,
     });

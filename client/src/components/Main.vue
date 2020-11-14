@@ -1,12 +1,13 @@
 <template>
   <div class="hello">
+    {{ fields }}
     <div class="row">
       <div class="col-2">
-        <div class="card">
-          <div v-for="(value, propertyName) in fields" :key="propertyName">
-            {{ propertyName }}: {{ value }}
-          </div>
-        </div>
+        <SearchFields
+          :fields="fields"
+          v-on:clear="fields = {}"
+          v-on:remove="$delete(fields, $event)"
+        />
       </div>
       <div class="col-8">
         <div class="row">
@@ -18,43 +19,17 @@
             </select>
           </div>
           <input v-model="value" class="form-control input" />
-          <input v-model="page" type="number" class="form-control input" />
+          <input
+            v-model="page"
+            type="number"
+            class="form-control input"
+            min="1"
+          />
           <button type="button" class="btn btn-success" @click="addField">
             Add
           </button>
-          <button type="button" class="btn btn-danger" @click="clearFields">
-            Clear
-          </button>
         </div>
-        <ApolloQuery
-          :query="require('../graphql/GetCount.gql')"
-          :variables="{ fields, page }"
-        >
-          <template slot-scope="{ result: { data } }">
-            <div v-if="data" class="result apollo">
-              {{ data.count }} records found...
-            </div>
-          </template>
-        </ApolloQuery>
-        <br>
-        <ApolloQuery
-          :query="require('../graphql/Persons.gql')"
-          :variables="{ fields, page }"
-        >
-          <template slot-scope="{ result: { loading, error, data } }">
-            <div v-if="loading" class="loading apollo">Loading...</div>
-
-            <div v-else-if="error" class="error apollo">An error occured</div>
-
-            <div v-else-if="data" class="result apollo">
-              <div v-for="(person, index) in data.persons" :key="person._id">
-                {{ ++index }}. {{ person.FirstName + " " + person.LastName }}
-              </div>
-            </div>
-
-            <div v-else class="no-result apollo">No result :(</div>
-          </template>
-        </ApolloQuery>
+        <Result :fields="fields" :page="page" />
       </div>
       <div class="col-2">
         <div class="card"></div>
@@ -64,10 +39,14 @@
 </template>
 
 <script>
+import Result from "./Result";
+import SearchFields from "./SearchFields";
+
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
+  name: "Main",
+  components: {
+    Result,
+    SearchFields,
   },
   data: () => {
     return {
@@ -92,6 +71,7 @@ export default {
         "StateName",
         "PhoneNumber",
         "PhoneType",
+        "EmailAddress",
       ],
     };
   },
@@ -106,13 +86,10 @@ export default {
   },
   methods: {
     addField() {
-      this.fields = { ...this.tempField, ...this.fields };
+      this.fields = { ...this.fields, ...this.tempField };
       this.tempField = {};
       this.prop = "";
       this.value = "";
-    },
-    clearFields() {
-      this.fields = {};
     },
   },
 };
@@ -147,8 +124,6 @@ input {
 }
 button {
   width: 75px;
-  margin-right: 10px;
-  margin-left: 10px;
 }
 .input {
   margin-right: 37px;

@@ -2,4 +2,5 @@ fragment person on Person {
   _id
   FirstName
   LastName
+  EmailAddress
 }

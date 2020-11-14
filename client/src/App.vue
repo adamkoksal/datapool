@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld msg="SA"/>
+    <Main/>
   </div>
 </template>
 
@@ -8,12 +8,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery/src/jquery.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
-import HelloWorld from "./components/HelloWorld"
+import Main from "./components/Main"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Main
   }
 }
 </script>

@@ -3,7 +3,7 @@ Person.Person.BusinessEntityID, Person.Person.Title, Person.Person.FirstName, Pe
 Person.Address.AddressLine1, Person.Address.AddressLine2, Person.Address.City, Person.Address.PostalCode, 
 AddressType.Name AS AddressType, 
 StateProvince.StateProvinceCode, StateProvince.CountryRegionCode, StateProvince.Name AS StateName,
-PersonPhone.PhoneNumber, PhoneNumberType.Name AS PhoneType
+PersonPhone.PhoneNumber, PhoneNumberType.Name AS PhoneType, EmailAddress.EmailAddress
 FROM Person.Person
 JOIN Person.BusinessEntityAddress
 ON BusinessEntityAddress.BusinessEntityID = Person.BusinessEntityID
@@ -16,4 +16,6 @@ ON Address.StateProvinceID = StateProvince.StateProvinceID
 JOIN Person.PersonPhone
 ON PersonPhone.BusinessEntityID = Person.BusinessEntityID
 JOIN Person.PhoneNumberType
-ON PhoneNumberType.PhoneNumberTypeID = PersonPhone.PhoneNumberTypeID`;
+ON PhoneNumberType.PhoneNumberTypeID = PersonPhone.PhoneNumberTypeID
+JOIN Person.EmailAddress
+ON Person.BusinessEntityID = EmailAddress.BusinessEntityID`;

@@ -18,6 +18,7 @@ export const typeDefs = gql`
     StateName: String
     PhoneNumber: String
     PhoneType: String
+    EmailAddress: String
   }
 
   input Field {
@@ -36,6 +37,7 @@ export const typeDefs = gql`
     StateName: String
     PhoneNumber: String
     PhoneType: String
+    EmailAddress: String
   }
 
   type Query {
