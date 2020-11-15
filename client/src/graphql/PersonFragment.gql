@@ -1,5 +1,6 @@
 fragment person on Person {
   _id
+  BusinessEntityID
   FirstName
   LastName
   EmailAddress

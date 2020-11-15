@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <Main/>
+    <Main />
   </div>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'jquery/src/jquery.js'
-import 'bootstrap/dist/js/bootstrap.min.js'
-import Main from "./components/Main"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "jquery/src/jquery.js";
+import "bootstrap/dist/js/bootstrap.min.js";
+import Main from "./components/Main";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Main
-  }
-}
+    Main,
+  },
+};
 </script>
 
 <style>
@@ -26,5 +26,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  overflow-x: hidden;
+  width: 100%;
 }
 </style>

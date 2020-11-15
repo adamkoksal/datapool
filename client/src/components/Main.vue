@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    {{ fields }}
     <div class="row">
       <div class="col-2">
         <SearchFields
@@ -13,26 +12,24 @@
         <div class="row">
           <div class="input-group mb-3 input">
             <select class="custom-select" v-model="prop">
-              <option v-for="x in selectFields" :value="x" :key="x">{{
-                x
-              }}</option>
+              <option v-for="x in selectFields" :value="x" :key="x">
+                {{ x }}
+              </option>
             </select>
           </div>
           <input v-model="value" class="form-control input" />
-          <input
-            v-model="page"
-            type="number"
-            class="form-control input"
-            min="1"
-          />
           <button type="button" class="btn btn-success" @click="addField">
             Add
           </button>
         </div>
-        <Result :fields="fields" :page="page" />
+        <Result
+          :fields="fields"
+          :page="page"
+          @changePage="page = `${$event}`"
+        />
       </div>
       <div class="col-2">
-        <div class="card"></div>
+        <ResultFields />
       </div>
     </div>
   </div>
@@ -41,12 +38,14 @@
 <script>
 import Result from "./Result";
 import SearchFields from "./SearchFields";
+import ResultFields from "./ResultFields";
 
 export default {
   name: "Main",
   components: {
     Result,
     SearchFields,
+    ResultFields,
   },
   data: () => {
     return {
@@ -90,6 +89,7 @@ export default {
       this.tempField = {};
       this.prop = "";
       this.value = "";
+      this.page = "1";
     },
   },
 };
@@ -112,9 +112,6 @@ li {
 }
 a {
   color: #42b983;
-}
-.card {
-  height: 500px;
 }
 input {
   width: 200px;

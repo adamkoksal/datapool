@@ -1,12 +1,19 @@
 <template>
-  <div class="card">
+  <div class="card" id="field-card">
     <div
       v-for="(value, propertyName) in fields"
       :key="propertyName"
-      class="field"
       @click="clearField(propertyName)"
     >
-      <p class="font-weight-bold">{{ propertyName }}: {{ value }}</p>
+      <button
+        type="button"
+        class="btn btn-light btn-block"
+        data-toggle="tooltip"
+        title="Delete"
+        id="field-btn"
+      >
+        {{ propertyName }}: {{ value }}
+      </button>
     </div>
     <button
       type="button"
@@ -14,7 +21,7 @@
       class="btn btn-danger"
       @click="clearAllFields"
     >
-      Clear
+      Clear Filter
     </button>
   </div>
 </template>
@@ -37,14 +44,18 @@ export default {
 </script>
 
 <style>
-.card {
-  height: 500px;
+#field-card {
+  height: 75vh;
   padding: 20px;
 }
 
-.field:hover {
-  color: red;
-  cursor: pointer;
+#field-btn:hover {
+  background-color: rgb(220, 53, 69);
+  color: white;
+}
+
+#field-btn {
+  margin-bottom: 10px;
 }
 
 #clr-btn {
