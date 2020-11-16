@@ -39,12 +39,9 @@ export default {
     };
   },
   methods: {
-    increasePage() {
-      ++this.page;
-    },
     changePage(n) {
       this.page = n;
-      this.$emit("changePage", n);
+      this.$eventHub.$emit("changePage", n);
     },
   },
   computed: {
@@ -70,6 +67,11 @@ export default {
       }
       return list;
     },
+  },
+  created() {
+    this.$eventHub.$on("changePage", (n) => {
+      this.page = n;
+    });
   },
 };
 </script>

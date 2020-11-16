@@ -11,8 +11,9 @@
     <tbody>
       <tr v-for="(row, index) in data" :key="row.BusinessEntityID">
         <th scope="row">{{ ++index + (page - 1) * 10 }}</th>
-        <td>{{ row.FirstName }}</td>
-        <td>{{ row.LastName }}</td>
+        <td v-for="(value, field) in fieldsShown" :key="field">
+          {{ row[`${field}`] }}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -23,11 +24,11 @@ export default {
   name: "Table",
   props: {
     data: Array,
-    page: String,
   },
   data() {
     return {
       fieldsShown: { FirstName: "", LastName: "" },
+      page: 1,
     };
   },
   created() {
@@ -37,6 +38,10 @@ export default {
 
     this.$eventHub.$on("resetShownField", () => {
       Object.assign(this.$data, this.$options.data.call(this));
+    });
+
+    this.$eventHub.$on("changePage", (n) => {
+      this.page = n;
     });
   },
 };

@@ -11,7 +11,7 @@
 
         <div v-else-if="data" class="result apollo">
           <div v-if="data.persons.length == 0">No records found</div>
-          <Table :data="data.persons" :page="page" />
+          <Table :data="data.persons" />
         </div>
 
         <div v-else class="no-result apollo">No result :(</div>
@@ -38,11 +38,20 @@ export default {
   name: "Result",
   props: {
     fields: Object,
-    page: String,
   },
   components: {
     Pagination,
     Table,
+  },
+  data() {
+    return {
+      page: 1,
+    };
+  },
+  created() {
+    this.$eventHub.$on("changePage", (n) => {
+      this.page = n;
+    });
   },
 };
 </script>

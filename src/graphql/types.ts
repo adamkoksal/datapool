@@ -43,7 +43,7 @@ export const typeDefs = gql`
   type Query {
     persons(
       _id: String
-      page: String
+      page: Int
       fields: Field
     ): [Person]
 

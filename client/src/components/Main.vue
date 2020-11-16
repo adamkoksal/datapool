@@ -24,8 +24,6 @@
         </div>
         <Result
           :fields="fields"
-          :page="page"
-          @changePage="page = `${$event}`"
         />
       </div>
       <div class="col-2">
@@ -51,7 +49,7 @@ export default {
     return {
       prop: null,
       value: "",
-      page: "1",
+      page: 1,
       fields: {},
       tempField: {},
       selectFields: [
@@ -89,8 +87,14 @@ export default {
       this.tempField = {};
       this.prop = "";
       this.value = "";
-      this.page = "1";
+      this.page = 1;
+      this.$eventHub.$emit("changePage", 1);
     },
+  },
+  created () {
+    this.$eventHub.$on("changePage", (n) => {
+      this.page = n;
+    });
   },
 };
 </script>
