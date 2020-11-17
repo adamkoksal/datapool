@@ -89,4 +89,8 @@ a {
 .result {
   margin: 7px 0 0 20px;
 }
+
+ul {
+  margin-bottom: 0;
+}
 </style>

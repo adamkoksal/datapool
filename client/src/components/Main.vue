@@ -9,22 +9,24 @@
         />
       </div>
       <div class="col-8">
-        <div class="row">
-          <div class="input-group mb-3 input">
+        <div class="row" style="margin-bottom: 20px">
+          <div class="input-group" id="input">
             <select class="custom-select" v-model="prop">
               <option v-for="x in selectFields" :value="x" :key="x">
                 {{ x }}
               </option>
             </select>
           </div>
-          <input v-model="value" class="form-control input" />
-          <button type="button" class="btn btn-success" @click="addField">
+          <input v-model="value" class="form-control" id="input" />
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            @click="addField"
+          >
             Add
           </button>
         </div>
-        <Result
-          :fields="fields"
-        />
+        <Result :fields="fields" />
       </div>
       <div class="col-2">
         <ResultFields />
@@ -91,7 +93,7 @@ export default {
       this.$eventHub.$emit("changePage", 1);
     },
   },
-  created () {
+  created() {
     this.$eventHub.$on("changePage", (n) => {
       this.page = n;
     });
@@ -120,13 +122,11 @@ a {
 input {
   width: 200px;
 }
-.mb-3 {
+.input-group {
   width: 200px;
 }
-button {
-  width: 75px;
-}
-.input {
+
+#input {
   margin-right: 37px;
   margin-left: 37px;
 }

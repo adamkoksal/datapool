@@ -15,6 +15,7 @@
         {{ propertyName }}: {{ value }}
       </button>
     </div>
+    <div v-if="Object.keys(fields).length == 0">No filters added</div>
     <button
       type="button"
       id="clr-btn"
