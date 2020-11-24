@@ -22,7 +22,7 @@
       class="btn btn-danger"
       @click="clearAllFields"
     >
-      Clear Filter
+      Clear Filters
     </button>
   </div>
 </template>

@@ -1,29 +1,37 @@
 <template>
-  <div class="hello">
+  <div>
+    <NavBar />
     <div class="row">
       <div class="col-2">
         <SearchFields
           :fields="fields"
-          v-on:clear="fields = {}"
-          v-on:remove="$delete(fields, $event)"
+          @clear="fields = {}"
+          @remove="$delete(fields, $event)"
         />
       </div>
       <div class="col-8">
         <div class="row" style="margin-bottom: 20px">
           <div class="input-group" id="input">
             <select class="custom-select" v-model="prop">
-              <option v-for="x in selectFields" :value="x" :key="x">
-                {{ x }}
+              <option v-for="field in selectFields" :value="field" :key="field">
+                {{ field }}
               </option>
             </select>
           </div>
-          <input v-model="value" class="form-control" id="input" />
+          <input
+            v-model="value"
+            class="form-control"
+            id="input"
+            @keyup.enter="addField"
+          />
           <button
             type="button"
-            class="btn btn-success btn-sm"
+            class="btn"
+            id="filter-button"
             @click="addField"
+            :disabled="!prop || !value"
           >
-            Add
+            Filter
           </button>
         </div>
         <Result :fields="fields" />
@@ -39,6 +47,7 @@
 import Result from "./Result";
 import SearchFields from "./SearchFields";
 import ResultFields from "./ResultFields";
+import NavBar from "./NavBar";
 
 export default {
   name: "Main",
@@ -46,6 +55,7 @@ export default {
     Result,
     SearchFields,
     ResultFields,
+    NavBar,
   },
   data: () => {
     return {
@@ -53,7 +63,6 @@ export default {
       value: "",
       page: 1,
       fields: {},
-      tempField: {},
       selectFields: [
         "BusinessEntityID",
         "FirstName",
@@ -74,20 +83,11 @@ export default {
       ],
     };
   },
-  watch: {
-    prop() {
-      this.tempField = {};
-      this.tempField[`${this.prop}`] = this.value;
-    },
-    value() {
-      this.tempField[`${this.prop}`] = this.value;
-    },
-  },
   methods: {
     addField() {
-      this.fields = { ...this.fields, ...this.tempField };
-      this.tempField = {};
-      this.prop = "";
+      if (!this.prop || !this.value) return;
+      this.fields = { ...this.fields, ...{ [this.prop]: this.value } };
+      this.prop = null;
       this.value = "";
       this.page = 1;
       this.$eventHub.$emit("changePage", 1);
@@ -129,5 +129,10 @@ input {
 #input {
   margin-right: 37px;
   margin-left: 37px;
+}
+
+#filter-button {
+  background-color: #0fabbc;
+  color: white;
 }
 </style>
