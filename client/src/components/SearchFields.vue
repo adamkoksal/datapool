@@ -15,7 +15,7 @@
         {{ propertyName }}: {{ value }}
       </button>
     </div>
-    <div v-if="Object.keys(fields).length == 0">No filters added</div>
+    <div v-if="Object.keys(fields).length == 0">No filters </div>
     <button
       type="button"
       id="clr-btn"
@@ -48,6 +48,7 @@ export default {
 #field-card {
   height: 75vh;
   padding: 20px;
+  margin-left: 10px;
 }
 
 #field-btn:hover {

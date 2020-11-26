@@ -10,8 +10,8 @@
         />
       </div>
       <div class="col-8">
-        <div class="row" style="margin-bottom: 20px">
-          <div class="input-group" id="input">
+        <div class="row center" style="margin-bottom: 20px">
+          <div class="input-group table-container" id="input">
             <select class="custom-select" v-model="prop">
               <option v-for="field in selectFields" :value="field" :key="field">
                 {{ field }}
@@ -20,13 +20,13 @@
           </div>
           <input
             v-model="value"
-            class="form-control"
+            class="form-control table-container"
             id="input"
             @keyup.enter="addField"
           />
           <button
             type="button"
-            class="btn"
+            class="btn btn-info"
             id="filter-button"
             @click="addField"
             :disabled="!prop || !value"
@@ -120,19 +120,27 @@ a {
   color: #42b983;
 }
 input {
-  width: 200px;
+  width: 20vw;
+  border: none;
+  border-radius: 0.9vw;
 }
 .input-group {
-  width: 200px;
+  width: 20vw;
+  border-radius: 0.9vw;
 }
 
-#input {
-  margin-right: 37px;
-  margin-left: 37px;
+.custom-select {
+  border: none;
+}
+
+.center {
+  margin: 0 20px; 
+  justify-content: space-between;
 }
 
 #filter-button {
-  background-color: #0fabbc;
-  color: white;
+  width: 150px;
+  font-weight: bold;
+  border-radius: 10px;
 }
 </style>

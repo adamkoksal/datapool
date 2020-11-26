@@ -1,29 +1,35 @@
 <template>
-  <div class="bottom" v-if="pageList.length">
-    <nav>
-      <ul class="pagination">
-        <li class="page-item" @click="changePage(1)">
-          <a class="page-link">
-            <span>&laquo;</span>
-          </a>
-        </li>
-        <li
-          class="page-item"
-          v-bind:class="{ active: n == page }"
-          v-for="n in pageList"
-          :key="n"
-          @click="changePage(n)"
-        >
-          <a class="page-link">{{ n }}</a>
-        </li>
-        <li class="page-item" @click="changePage(pages)">
-          <a class="page-link">
-            <span>&raquo;</span>
-          </a>
-        </li>
-        <div class="result">Result count: {{ resultCount }}</div>
-      </ul>
-    </nav>
+  <div class="container" v-if="pageList.length">
+    <div class="bottom left">
+      <div id="result-count">Result count: {{ resultCount }}</div>
+    </div>
+    <div class="bottom" >
+      <div class="table-container">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" @click="changePage(1)">
+              <a class="page-link">
+                <span>&laquo;</span>
+              </a>
+            </li>
+            <li
+              class="page-item"
+              v-bind:class="{ active: n == page }"
+              v-for="n in pageList"
+              :key="n"
+              @click="changePage(n)"
+            >
+              <a class="page-link">{{ n }}</a>
+            </li>
+            <li class="page-item" @click="changePage(pages)">
+              <a class="page-link">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -84,13 +90,29 @@ a {
 .bottom {
   position: fixed;
   bottom: 0;
+  justify-content: center;
 }
 
-.result {
-  margin: 7px 0 0 20px;
+.left {
+  left: 18vw;
+}
+
+#result-count {
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 ul {
   margin-bottom: 0;
+}
+
+.page-link {
+  color: #6c7ae0;
+  border: none;
+}
+
+.page-item.active .page-link {
+  background-color: #5e6cd4 !important;
+  border-color: #4d5ab8;
 }
 </style>

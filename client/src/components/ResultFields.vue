@@ -2,6 +2,7 @@
   <div class="card table-container" id="result-field-card">
     <div v-for="(value, field) in allFields" :key="field">
       <button
+        id="result-field"
         type="button"
         class="btn btn-light btn-xs btn-block"
         data-toggle="tooltip"
@@ -62,6 +63,7 @@ export default {
 #result-field-card {
   padding: 20px;
   height: 75vh;
+  margin-right: 10px;
 }
 
 .btn-xs {
@@ -69,6 +71,10 @@ export default {
   font-size: 0.875rem;
   line-height: 1;
   border-radius: 0.2rem;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
+}
+
+#result-field:hover {
+  background-color: #e7e2fa;
 }
 </style>
