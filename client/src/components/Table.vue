@@ -1,37 +1,43 @@
 <template>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col" style="width: 6.7%">#</th>
-        <th
-          scope="col"
-          @dragstart="dragField = field"
-          @dragend="move"
-          @dblclick="removeField(field)"
-          id="move"
-          v-for="field in fieldsShown"
-          :key="field"
-          draggable
-        >
-          <div class="container">
-            <div class="dropzone" @dragover="dragover(field, 1, $event)" />
-            <div class="col-name" @dragover="dragover(field, 1, $event)">
-              {{ field }}
+  <div v-if="data.length" class="table-container scroll">
+    <table class="table table-borderless">
+      <thead class="thead">
+        <tr>
+          <th scope="col" style="width: 6.7%">#</th>
+          <th
+            scope="col"
+            @dragstart="dragField = field"
+            @dragend="move"
+            @dblclick="removeField(field)"
+            id="move"
+            v-for="field in fieldsShown"
+            :key="field"
+            draggable
+          >
+            <div class="line">
+              <div class="container">
+                <div class="dropzone" @dragover="dragover(field, 1, $event)" />
+                <div @dragover="dragover(field, 1, $event)">
+                  {{ field }}
+                </div>
+                <div class="dropzone" @dragover="dragover(field, 0, $event)" />
+              </div>
             </div>
-            <div class="dropzone" @dragover="dragover(field, 0, $event)" />
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(row, index) in data" :key="row.BusinessEntityID">
-        <th scope="row">{{ ++index + (page - 1) * 10 }}</th>
-        <td v-for="field in fieldsShown" :key="field">
-          {{ row[`${field}`] }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, index) in data" :key="row.BusinessEntityID">
+          <td scope="row">{{ ++index + (page - 1) * 10 }}</td>
+          <td v-for="field in fieldsShown" :key="field">
+            <div class="line">
+              {{ row[`${field}`] }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -91,27 +97,29 @@ export default {
 <style>
 #move {
   cursor: move;
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .dropzone {
   margin: 0px;
   padding: 0px;
-  width: 130px;
-  height: 20px;
+  width: 100%;
+  height: 60px;
+}
+
+.line {
+  margin-right: 20px;
+  width: 100%;
+}
+
+.scroll {
+  overflow-x: auto;
 }
 
 .container {
-  margin: 0px;
-  display: table;
-  height: 50px;
-}
-
-.dropzone {
-  display: table-cell;
-}
-
-.col-name {
-  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

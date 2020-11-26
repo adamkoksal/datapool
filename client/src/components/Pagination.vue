@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom">
+  <div class="bottom" v-if="pageList.length">
     <nav>
       <ul class="pagination">
         <li class="page-item" @click="changePage(1)">

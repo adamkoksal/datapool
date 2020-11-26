@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="field-card">
+  <div class="card table-container" id="field-card">
     <div
       v-for="(value, propertyName) in fields"
       :key="propertyName"

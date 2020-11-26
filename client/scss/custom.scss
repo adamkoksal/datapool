@@ -1,0 +1,37 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+th,
+td {
+  font-weight: unset;
+  padding-right: 10px;
+}
+.table tr:nth-child(even) {
+  background-color: #f8f6ff;
+}
+.table th {
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.4;
+  background-color: #6c7ae0;
+}
+.table td {
+  color: rgb(99, 98, 98);
+}
+.table-container {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+  -o-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+  -ms-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+}
+
+.thead th {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.card {
+  border: none;
+}

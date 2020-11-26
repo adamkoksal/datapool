@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="result-field-card">
+  <div class="card table-container" id="result-field-card">
     <div v-for="(value, field) in allFields" :key="field">
       <button
         type="button"

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../scss/custom.scss";
 import "jquery/src/jquery.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 import Main from "./components/Main";
