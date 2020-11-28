@@ -10,8 +10,8 @@
         />
       </div>
       <div class="col-8">
-        <div class="row center" style="margin-bottom: 20px">
-          <div class="input-group table-container" id="input">
+        <div class="row center">
+          <div class="input-group table-container">
             <select class="custom-select" v-model="prop">
               <option v-for="field in selectFields" :value="field" :key="field">
                 {{ field }}
@@ -26,7 +26,7 @@
           />
           <button
             type="button"
-            class="btn btn-info"
+            class="btn btn-info table-container"
             id="filter-button"
             @click="addField"
             :disabled="!prop || !value"
@@ -87,10 +87,11 @@ export default {
     addField() {
       if (!this.prop || !this.value) return;
       this.fields = { ...this.fields, ...{ [this.prop]: this.value } };
+      this.$eventHub.$emit("search", this.prop);
+      this.$eventHub.$emit("changePage", 1);
       this.prop = null;
       this.value = "";
       this.page = 1;
-      this.$eventHub.$emit("changePage", 1);
     },
   },
   created() {
@@ -129,13 +130,18 @@ input {
   border-radius: 0.9vw;
 }
 
+select {
+  cursor: pointer;
+}
+
 .custom-select {
   border: none;
 }
 
 .center {
-  margin: 0 20px; 
+  margin: 0 20px;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 #filter-button {

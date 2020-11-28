@@ -63,11 +63,9 @@ export default {
       this.fieldsShown.splice(to, 0, this.fieldsShown.splice(from, 1)[0]);
     },
     removeField(field) {
-      const noDelete = ["FirstName", "LastName"];
-      if (!noDelete.includes(field)) {
-        const rmItem = this.findIndex(field);
-        this.fieldsShown.splice(rmItem, 1);
-      }
+      const rmItem = this.findIndex(field);
+      this.fieldsShown.splice(rmItem, 1);
+      this.$eventHub.$emit("removeShownField", field);
     },
     dragover(field, position, $event) {
       $event.preventDefault();

@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-if="pageList.length">
     <div class="bottom left">
-      <div id="result-count">Result count: {{ resultCount }}</div>
+      <div id="result-count">{{ resultCount.toLocaleString() }} records found.</div>
     </div>
     <div class="bottom" >
       <div class="table-container">

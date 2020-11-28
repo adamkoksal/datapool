@@ -1,6 +1,6 @@
 <template>
   <div class="card table-container" id="result-field-card">
-    <div v-for="(value, field) in allFields" :key="field">
+    <div v-for="field in allFields" :key="field">
       <button
         id="result-field"
         type="button"
@@ -28,22 +28,22 @@ export default {
   name: "ResultField",
   data() {
     return {
-      allFields: {
-        BusinessEntityID: "",
-        MiddleName: "",
-        Title: "",
-        AddressLine1: "",
-        AddressLine2: "",
-        City: "",
-        PostalCode: "",
-        AddressType: "",
-        StateProvinceCode: "",
-        CountryRegionCode: "",
-        StateName: "",
-        PhoneNumber: "",
-        PhoneType: "",
-        EmailAddress: "",
-      },
+      allFields: [
+        "BusinessEntityID",
+        "MiddleName",
+        "Title",
+        "AddressLine1",
+        "AddressLine2",
+        "City",
+        "PostalCode",
+        "AddressType",
+        "StateProvinceCode",
+        "CountryRegionCode",
+        "StateName",
+        "PhoneNumber",
+        "PhoneType",
+        "EmailAddress",
+      ],
     };
   },
   methods: {
@@ -53,8 +53,21 @@ export default {
     },
     addField(field) {
       this.$eventHub.$emit("addShownField", field);
-      this.$delete(this.allFields, field);
+      let rmItem = this.findIndex(field);
+      this.allFields.splice(rmItem, 1);
     },
+    findIndex(field) {
+      return this.allFields.findIndex((element) => element == field);
+    },
+  },
+  created() {
+    this.$eventHub.$on("removeShownField", (field) => {
+      this.allFields.push(field);
+    });
+    this.$eventHub.$on("search", (field) => {
+      console.log(field)
+      if (this.allFields.includes(field)) this.addField(field);
+    });
   },
 };
 </script>
