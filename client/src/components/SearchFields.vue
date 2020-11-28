@@ -7,12 +7,11 @@
     >
       <button
         type="button"
-        class="btn btn-light btn-block"
-        data-toggle="tooltip"
-        title="Delete"
+        class="btn btn-light btn-block tiptool"
         id="field-btn"
       >
         {{ propertyName }}: {{ value }}
+        <span class="tooltiptext">Delete</span>
       </button>
     </div>
     <div v-if="Object.keys(fields).length == 0">No filters </div>

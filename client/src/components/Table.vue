@@ -14,8 +14,9 @@
             :key="field"
             draggable
           >
-            <div class="line">
+            <div class="line tiptool">
               <div class="container">
+                <span class="tooltiptext">Double click to remove field.</span>
                 <div class="dropzone" @dragover="dragover(field, 1, $event)" />
                 <div @dragover="dragover(field, 1, $event)">
                   {{ field }}

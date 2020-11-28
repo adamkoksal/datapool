@@ -4,12 +4,11 @@
       <button
         id="result-field"
         type="button"
-        class="btn btn-light btn-xs btn-block"
-        data-toggle="tooltip"
-        title="Add"
+        class="btn btn-light btn-xs btn-block tiptool"
         @click="addField(field)"
       >
         {{ field }}
+        <span class="tooltiptext">Add</span>
       </button>
     </div>
     <button
@@ -65,7 +64,7 @@ export default {
       this.allFields.push(field);
     });
     this.$eventHub.$on("search", (field) => {
-      console.log(field)
+      console.log(field);
       if (this.allFields.includes(field)) this.addField(field);
     });
   },
