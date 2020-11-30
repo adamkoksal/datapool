@@ -64,7 +64,6 @@ export default {
       this.allFields.push(field);
     });
     this.$eventHub.$on("search", (field) => {
-      console.log(field);
       if (this.allFields.includes(field)) this.addField(field);
     });
   },

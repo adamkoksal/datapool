@@ -24,6 +24,15 @@
             id="input"
             @keyup.enter="addField"
           />
+          <div class="row checkbox">
+            <input
+              type="checkbox"
+              class="regex"
+              v-model="exactMatch"
+              id="box"
+            />
+            <label for="box"> Exact Match </label>
+          </div>
           <button
             type="button"
             class="btn btn-info table-container"
@@ -63,6 +72,7 @@ export default {
       value: "",
       page: 1,
       fields: {},
+      exactMatch: true,
       selectFields: [
         "BusinessEntityID",
         "FirstName",
@@ -86,12 +96,14 @@ export default {
   methods: {
     addField() {
       if (!this.prop || !this.value) return;
+      if (!this.exactMatch) this.value = "/" + this.value;
       this.fields = { ...this.fields, ...{ [this.prop]: this.value } };
       this.$eventHub.$emit("search", this.prop);
       this.$eventHub.$emit("changePage", 1);
       this.prop = null;
       this.value = "";
       this.page = 1;
+      this.exactMatch = true;
     },
   },
   created() {
@@ -103,29 +115,17 @@ export default {
 </script>
 
 <style scoped>
-p {
-  padding-left: 15px;
-}
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
   color: #42b983;
 }
 input {
+  height: 40px;
   width: 20vw;
   border: none;
   border-radius: 0.9vw;
 }
 .input-group {
+  height: 40px;
   width: 20vw;
   border-radius: 0.9vw;
 }
@@ -146,7 +146,13 @@ select {
 
 #filter-button {
   width: 150px;
+  height: 40px;
   font-weight: bold;
   border-radius: 10px;
+}
+
+.regex {
+  height: 20px;
+  width: 40px;
 }
 </style>

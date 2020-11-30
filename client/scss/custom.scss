@@ -60,3 +60,15 @@ td {
 .tiptool:hover .tooltiptext {
   visibility: visible;
 }
+
+label {
+  margin: 0;
+}
+
+.checkbox {
+  align-items: center;
+}
+
+.regex input:checked {
+  background-color: green;
+}
