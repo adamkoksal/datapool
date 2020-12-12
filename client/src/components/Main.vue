@@ -13,6 +13,7 @@
         <div class="row center">
           <div class="input-group table-container">
             <select class="custom-select" v-model="prop">
+              <option value="0" selected disabled>Fields</option>
               <option v-for="field in selectFields" :value="field" :key="field">
                 {{ field }}
               </option>
@@ -44,6 +45,24 @@
           </button>
         </div>
         <Result :fields="fields" />
+        <div class="btn-group dropup float-right">
+          <button
+            type="button"
+            class="btn btn-success dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Download
+          </button>
+          <ul class="dropdown-menu">
+            <li><button class="dropdown-item">Download as PDF</button></li>
+            <li>
+              <button class="dropdown-item" @click="downloadCSV()">
+                Download as CSV
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="col-2">
         <ResultFields />
@@ -68,7 +87,7 @@ export default {
   },
   data: () => {
     return {
-      prop: null,
+      prop: 0,
       value: "",
       page: 1,
       fields: {},
@@ -104,6 +123,17 @@ export default {
       this.value = "";
       this.page = 1;
       this.exactMatch = true;
+    },
+    async downloadCSV() {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: 1, data2: 0 }),
+      };
+      await fetch(
+        "http://localhost:4000/download",
+        requestOptions
+      ).then(async (data) => console.log(await data.json()));
     },
   },
   created() {
