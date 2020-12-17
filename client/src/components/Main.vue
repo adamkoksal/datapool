@@ -56,9 +56,16 @@
           </button>
           <ul class="dropdown-menu">
             <li><button class="dropdown-item">Download as PDF</button></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><div class="dropdown-item-text">Download as CSV</div></li>
             <li>
               <button class="dropdown-item" @click="downloadCSV()">
-                Download as CSV
+                All Fields
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item" @click="downloadCSV()">
+                Selected Fields
               </button>
             </li>
           </ul>
@@ -128,12 +135,22 @@ export default {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: 1, data2: 0 }),
+        body: JSON.stringify(this.fields),
       };
-      await fetch(
-        "http://localhost:4000/download",
-        requestOptions
-      ).then(async (data) => console.log(await data.json()));
+      await fetch("http://localhost:4000/download", requestOptions).then(
+        async (data) => {
+          const csvData = (await data.json()).data;
+          const blob = new Blob([csvData], { type: "text/csv" });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.setAttribute("hidden", "");
+          a.setAttribute("href", url);
+          a.setAttribute("download", "download.csv");
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      );
     },
   },
   created() {

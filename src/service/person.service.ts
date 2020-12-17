@@ -31,3 +31,24 @@ function transformProps(fields) {
   }
   return fields;
 }
+
+export async function downloadCSV(fields: Object) {
+  fields = transformProps(fields);
+  const data = await dbClient
+    .collection("Person")
+    .find(fields)
+    .collation({ locale: "en", strength: 2 })
+    .toArray();
+
+  const csvRows: string[] = [];
+  const headers = Object.keys(data[0]);
+  csvRows.push(headers.join(","))
+
+  for (const row of data) {
+    const values = headers.map(header => { return row[header] })
+    csvRows.push(values.join(","))
+  }
+  const csvData = csvRows.join("\n");
+  return { data: csvData };
+}
+
