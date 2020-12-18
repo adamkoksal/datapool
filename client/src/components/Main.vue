@@ -64,7 +64,7 @@
               </button>
             </li>
             <li>
-              <button class="dropdown-item" @click="downloadCSV()">
+              <button class="dropdown-item" @click="downloadCSVSelectedFields()">
                 Selected Fields
               </button>
             </li>
@@ -131,11 +131,11 @@ export default {
       this.page = 1;
       this.exactMatch = true;
     },
-    async downloadCSV() {
+    async downloadCSV(fieldsShown) {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.fields),
+        body: JSON.stringify({ fields: this.fields, fieldsShown }),
       };
       await fetch("http://localhost:4000/download", requestOptions).then(
         async (data) => {
@@ -152,10 +152,17 @@ export default {
         }
       );
     },
+    downloadCSVSelectedFields() {
+      this.$eventHub.$emit("requestFieldsShown");
+    }
   },
   created() {
     this.$eventHub.$on("changePage", (n) => {
       this.page = n;
+    });
+
+    this.$eventHub.$on("getFieldsShown", (fieldsShown) => {
+      this.downloadCSV(fieldsShown);
     });
   },
 };

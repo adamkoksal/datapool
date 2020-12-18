@@ -32,7 +32,7 @@ function transformProps(fields) {
   return fields;
 }
 
-export async function downloadCSV(fields: Object) {
+export async function downloadCSV({ fields, fieldsShown }) {
   fields = transformProps(fields);
   const data = await dbClient
     .collection("Person")
@@ -41,7 +41,11 @@ export async function downloadCSV(fields: Object) {
     .toArray();
 
   const csvRows: string[] = [];
-  const headers = Object.keys(data[0]);
+  let headers = Object.keys(data[0]);
+
+  if (fieldsShown)
+    headers = fieldsShown;
+
   csvRows.push(headers.join(","))
 
   for (const row of data) {

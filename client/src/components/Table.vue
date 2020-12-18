@@ -89,6 +89,10 @@ export default {
     this.$eventHub.$on("changePage", (n) => {
       this.page = n;
     });
+
+    this.$eventHub.$on("requestFieldsShown", () => {
+      this.$eventHub.$emit("getFieldsShown", this.fieldsShown)
+    });
   },
 };
 </script>
