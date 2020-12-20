@@ -48,23 +48,41 @@
         <div class="btn-group dropup float-right">
           <button
             type="button"
-            class="btn btn-success dropdown-toggle"
+            class="btn btn-info dropdown-toggle"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             Download
           </button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item">Download as PDF</button></li>
+            <li>
+              <div class="dropdown-item-text font-weight-bold">
+                Download as PDF
+              </div>
+            </li>
+            <li>
+              <button class="dropdown-item" @click="downloadPDF()">
+                All Fields
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item" @click="requestFieldsShown('pdf')">
+                Selected Fields
+              </button>
+            </li>
             <li><hr class="dropdown-divider" /></li>
-            <li><div class="dropdown-item-text">Download as CSV</div></li>
+            <li>
+              <div class="dropdown-item-text font-weight-bold">
+                Download as CSV
+              </div>
+            </li>
             <li>
               <button class="dropdown-item" @click="downloadCSV()">
                 All Fields
               </button>
             </li>
             <li>
-              <button class="dropdown-item" @click="downloadCSVSelectedFields()">
+              <button class="dropdown-item" @click="requestFieldsShown('csv')">
                 Selected Fields
               </button>
             </li>
@@ -79,10 +97,12 @@
 </template>
 
 <script>
-import Result from "./Result";
-import SearchFields from "./SearchFields";
-import ResultFields from "./ResultFields";
 import NavBar from "./NavBar";
+import Result from "./Result";
+import ResultFields from "./ResultFields";
+import SearchFields from "./SearchFields";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import pdfMake from "pdfmake/build/pdfmake";
 
 export default {
   name: "Main",
@@ -120,6 +140,9 @@ export default {
     };
   },
   methods: {
+    requestFieldsShown(type) {
+      this.$eventHub.$emit("requestFieldsShown", type);
+    },
     addField() {
       if (!this.prop || !this.value) return;
       if (!this.exactMatch) this.value = "/" + this.value;
@@ -137,7 +160,7 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fields: this.fields, fieldsShown }),
       };
-      await fetch("http://localhost:4000/download", requestOptions).then(
+      await fetch(`${this.$url}/download/csv`, requestOptions).then(
         async (data) => {
           const csvData = (await data.json()).data;
           const blob = new Blob([csvData], { type: "text/csv" });
@@ -152,17 +175,34 @@ export default {
         }
       );
     },
-    downloadCSVSelectedFields() {
-      this.$eventHub.$emit("requestFieldsShown");
-    }
+    async downloadPDF(fieldsShown) {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fields: this.fields, fieldsShown }),
+      };
+      await fetch(`${this.$url}/download/pdf`, requestOptions).then(
+        async (data) => {
+          const body = (await data.json()).data;
+          pdfMake.vfs = pdfFonts.pdfMake.vfs;
+          let docDefinition = {
+            pageSize: { width: 1800, height: 900 },
+            pageOrientation: "landscape",
+            content: [{ table: { body } }],
+          };
+          if (body[0].length < 6) docDefinition.pageSize = "A4";
+          pdfMake.createPdf(docDefinition).download("download");
+        }
+      );
+    },
   },
   created() {
     this.$eventHub.$on("changePage", (n) => {
       this.page = n;
     });
-
-    this.$eventHub.$on("getFieldsShown", (fieldsShown) => {
-      this.downloadCSV(fieldsShown);
+    this.$eventHub.$on("getFieldsShown", (fieldsShown, type) => {
+      if (type === "csv") this.downloadCSV(fieldsShown);
+      else this.downloadPDF(fieldsShown);
     });
   },
 };

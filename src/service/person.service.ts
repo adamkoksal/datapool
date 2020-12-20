@@ -33,13 +33,7 @@ function transformProps(fields) {
 }
 
 export async function downloadCSV({ fields, fieldsShown }) {
-  fields = transformProps(fields);
-  const data = await dbClient
-    .collection("Person")
-    .find(fields)
-    .collation({ locale: "en", strength: 2 })
-    .toArray();
-
+  const data = await getData(fields);
   const csvRows: string[] = [];
   let headers = Object.keys(data[0]);
 
@@ -54,5 +48,31 @@ export async function downloadCSV({ fields, fieldsShown }) {
   }
   const csvData = csvRows.join("\n");
   return { data: csvData };
+}
+
+export async function downloadPDF({ fields, fieldsShown }) {
+  const data = await getData(fields);
+  const csvRows: any[] = [];
+  let headers = Object.keys(data[0]);
+
+  if (fieldsShown)
+    headers = fieldsShown;
+  csvRows.push(headers);
+
+  for (const row of data) {
+    const values = headers.map(header => { return row[header] })
+    csvRows.push(values)
+  }
+  return { data: csvRows };
+}
+
+async function getData(fields) {
+  fields = transformProps(fields);
+  const data = await dbClient
+    .collection("Person")
+    .find(fields)
+    .collation({ locale: "en", strength: 2 })
+    .toArray();
+  return data;
 }
 

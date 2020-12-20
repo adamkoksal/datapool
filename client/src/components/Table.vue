@@ -28,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in data" :key="row.BusinessEntityID">
+        <tr v-for="(row, index) in data" :key="row._id">
           <td scope="row">{{ ++index + (page - 1) * 10 }}</td>
           <td v-for="field in fieldsShown" :key="field">
             <div class="line">
@@ -90,8 +90,8 @@ export default {
       this.page = n;
     });
 
-    this.$eventHub.$on("requestFieldsShown", () => {
-      this.$eventHub.$emit("getFieldsShown", this.fieldsShown)
+    this.$eventHub.$on("requestFieldsShown", (type) => {
+      this.$eventHub.$emit("getFieldsShown", this.fieldsShown, type)
     });
   },
 };
