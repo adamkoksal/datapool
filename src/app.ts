@@ -1,6 +1,7 @@
 import { resolvers, typeDefs } from "./graphql";
 import { connectMongo } from "./service/mongo.service";
 import { downloadCSV, downloadPDF } from "./service/person.service";
+import { port } from "./config"
 export let dbClient;
 
 const { ApolloServer } = require("apollo-server-express");
@@ -21,15 +22,15 @@ server.applyMiddleware({ app, path: `/graphql` });
 // });
 
 app.post("/download/csv", async (req, res) => {
-  const csv = await downloadCSV(req.body)
-  res.send(csv)
-})
+  const csv = await downloadCSV(req.body);
+  res.send(csv);
+});
 
 app.post("/download/pdf", async (req, res) => {
-  const csv = await downloadPDF(req.body)
-  res.send(csv)
-})
+  const csv = await downloadPDF(req.body);
+  res.send(csv);
+});
 
-app.listen({ port: 4000 }, async () => {
+app.listen({ port }, async () => {
   dbClient = await connectMongo();
 });
