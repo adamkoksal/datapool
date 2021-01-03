@@ -226,6 +226,7 @@ select {
 .col8 {
   flex: 60%;
   margin: 0 20px;
+  max-width: 67vw;
 }
 
 @media (max-width: 1300px) {
@@ -234,6 +235,7 @@ select {
   }
   .col8 {
     order: 1;
+    max-width: 100%;
   }
   .col2 {
     order: 2;
