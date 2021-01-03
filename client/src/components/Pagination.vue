@@ -1,34 +1,75 @@
 <template>
-  <div class="container" v-if="pageList.length">
-    <div class="bottom left">
-      <div id="result-count">{{ resultCount.toLocaleString() }} records found.</div>
+  <div class="pagination" v-if="pageList.length">
+    <div id="result-count">
+      {{ resultCount.toLocaleString() }} records found.
     </div>
-    <div class="bottom" >
-      <div class="table-container">
-        <nav>
-          <ul class="pagination">
-            <li class="page-item" @click="changePage(1)">
-              <a class="page-link">
-                <span>&laquo;</span>
-              </a>
-            </li>
-            <li
-              class="page-item"
-              v-bind:class="{ active: n == page }"
-              v-for="n in pageList"
-              :key="n"
-              @click="changePage(n)"
-            >
-              <a class="page-link">{{ n }}</a>
-            </li>
-            <li class="page-item" @click="changePage(pages)">
-              <a class="page-link">
-                <span>&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+    <div class="table-container">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item" @click="changePage(1)">
+            <a class="page-link">
+              <span>&laquo;</span>
+            </a>
+          </li>
+          <li
+            class="page-item"
+            v-bind:class="{ active: n == page }"
+            v-for="n in pageList"
+            :key="n"
+            @click="changePage(n)"
+          >
+            <a class="page-link">{{ n }}</a>
+          </li>
+          <li class="page-item" @click="changePage(pages)">
+            <a class="page-link">
+              <span>&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="btn-group dropup">
+      <button
+        type="button"
+        class="btn btn-info dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Download
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <div class="dropdown-item-text font-weight-bold">
+            Download as PDF
+          </div>
+        </li>
+        <li>
+          <button class="dropdown-item" @click="download('pdf')">
+            All Fields
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item" @click="download('req-pdf')">
+            Selected Fields
+          </button>
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <div class="dropdown-item-text font-weight-bold">
+            Download as CSV
+          </div>
+        </li>
+        <li>
+          <button class="dropdown-item" @click="download('csv')">
+            All Fields
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item" @click="download('req-csv')">
+            Selected Fields
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -48,6 +89,9 @@ export default {
     changePage(n) {
       this.page = n;
       this.$eventHub.$emit("changePage", n);
+    },
+    download(details) {
+      this.$eventHub.$emit("download", details);
     },
   },
   computed: {
@@ -87,14 +131,9 @@ a {
   cursor: pointer;
 }
 
-.bottom {
-  position: fixed;
-  bottom: 0;
-  justify-content: center;
-}
-
-.left {
-  left: 18vw;
+.pagination {
+  display: flex;
+  justify-content: space-between;
 }
 
 #result-count {

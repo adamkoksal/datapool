@@ -1,15 +1,15 @@
 <template>
   <div>
     <NavBar />
-    <div class="row">
-      <div class="col-2">
+    <div id="row">
+      <div class="col2">
         <SearchFields
           :fields="fields"
           @clear="fields = {}"
           @remove="$delete(fields, $event)"
         />
       </div>
-      <div class="col-8">
+      <div class="col8">
         <div class="row center">
           <div class="input-group table-container">
             <select class="custom-select" v-model="prop">
@@ -45,51 +45,8 @@
           </button>
         </div>
         <Result :fields="fields" />
-        <div class="btn-group dropup float-right">
-          <button
-            type="button"
-            class="btn btn-info dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Download
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="dropdown-item-text font-weight-bold">
-                Download as PDF
-              </div>
-            </li>
-            <li>
-              <button class="dropdown-item" @click="downloadPDF()">
-                All Fields
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item" @click="requestFieldsShown('pdf')">
-                Selected Fields
-              </button>
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <div class="dropdown-item-text font-weight-bold">
-                Download as CSV
-              </div>
-            </li>
-            <li>
-              <button class="dropdown-item" @click="downloadCSV()">
-                All Fields
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item" @click="requestFieldsShown('csv')">
-                Selected Fields
-              </button>
-            </li>
-          </ul>
-        </div>
       </div>
-      <div class="col-2">
+      <div class="col2">
         <ResultFields />
       </div>
     </div>
@@ -204,6 +161,12 @@ export default {
       if (type === "csv") this.downloadCSV(fieldsShown);
       else this.downloadPDF(fieldsShown);
     });
+    this.$eventHub.$on("download", (details) => {
+      if (details === "pdf") this.downloadPDF();
+      if (details === "csv") this.downloadCSV();
+      if (details === "req-pdf") this.requestFieldsShown('pdf');
+      if (details === "req-csv") this.requestFieldsShown('csv');
+    });
   },
 };
 </script>
@@ -233,7 +196,7 @@ select {
 }
 
 .center {
-  margin: 0 20px;
+  margin: 0 10px;
   justify-content: space-between;
   margin-bottom: 20px;
 }
@@ -248,5 +211,33 @@ select {
 .regex {
   height: 20px;
   width: 40px;
+}
+
+#row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col2 {
+  flex: 10%;
+  max-width: 240px;
+}
+
+.col8 {
+  flex: 60%;
+  margin: 0 20px;
+}
+
+@media (max-width: 1300px) {
+  #row {
+    flex-direction: column;
+  }
+  .col8 {
+    order: 1;
+  }
+  .col2 {
+    order: 2;
+    margin-bottom: 20px;
+  }
 }
 </style>

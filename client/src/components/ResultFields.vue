@@ -72,9 +72,11 @@ export default {
 
 <style>
 #result-field-card {
+  min-height: 500px;
   padding: 20px;
   height: 75vh;
   margin-right: 10px;
+  margin-left: 10px;
 }
 
 .btn-xs {

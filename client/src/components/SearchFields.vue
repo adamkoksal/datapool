@@ -48,6 +48,7 @@ export default {
   height: 75vh;
   padding: 20px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 #field-btn:hover {
@@ -64,4 +65,5 @@ export default {
   bottom: 15px;
   width: 80%;
 }
+
 </style>
